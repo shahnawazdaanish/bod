@@ -13,5 +13,5 @@
 
 //Route::awsSnsWebhooks('bkash_payment_notifications');
 Route::get('/', function () {
-    return view('welcome');
-})->name('/');
+    return redirect()->to('/admin');
+});
