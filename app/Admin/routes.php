@@ -2,6 +2,7 @@
 
 use Illuminate\Routing\Router;
 
+Admin::routes();
 
 Route::group([
     'prefix'        => config('admin.route.prefix'),
@@ -22,5 +23,3 @@ Route::group([
     $router->post('payment_used', 'SearchPaymentController@markPaymentUsed')->name('payment_used');
 
 });
-
-Admin::routes();
