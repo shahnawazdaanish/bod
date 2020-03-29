@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class SnsEventListenbKash
 {
@@ -29,11 +30,11 @@ class SnsEventListenbKash
     }
 
     public function onSubscriptionRequest($event) {
-        dd($event);
+        Log::info(json_encode($event));
     }
 
     public function onMessageReceived($event){
-        dd($event);
+        Log::info(json_encode($event->message));
     }
 
     public function subscribe($events)

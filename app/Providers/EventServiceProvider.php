@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Listeners\ReceiveSNSbKash;
+use App\Listeners\SubscribeSNSbKash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,9 +24,13 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
-            SnsTopicSubscriptionConfirmed::class,
-            SnsMessageReceived::class
         ],
+        SnsTopicSubscriptionConfirmed::class => [
+            SubscribeSNSbKash::class
+        ],
+        SnsMessageReceived::class => [
+            ReceiveSNSbKash::class
+        ]
     ];
 
     /**

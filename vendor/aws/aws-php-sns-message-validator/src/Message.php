@@ -1,7 +1,6 @@
 <?php
 namespace Aws\Sns;
 
-use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -42,7 +41,6 @@ class Message implements \ArrayAccess, \IteratorAggregate
         }
 
         // Read the raw POST data and JSON-decode it into a message.
-        Log::info(file_get_contents('php://input'));
         return self::fromJsonString(file_get_contents('php://input'));
     }
 

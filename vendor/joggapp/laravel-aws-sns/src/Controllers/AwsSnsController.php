@@ -5,7 +5,6 @@ namespace JoggApp\AwsSns\Controllers;
 use Aws\Sns\Exception\InvalidSnsMessageException;
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
-use Illuminate\Support\Facades\Log;
 use JoggApp\AwsSns\Events\SnsMessageReceived;
 use JoggApp\AwsSns\Events\SnsTopicSubscriptionConfirmed;
 
@@ -14,7 +13,6 @@ class AwsSnsController
     public function __invoke()
     {
         $message = Message::fromRawPostData();
-        Log::info(json_encode($message));
 
         $validator = new MessageValidator();
 
@@ -35,6 +33,7 @@ class AwsSnsController
         }
 
         if (isset($message['Type']) && $message['Type'] === 'Notification') {
+            // dd($message);
             event(new SnsMessageReceived($message));
         }
 
