@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::awsSnsWebhooks('bkash_payment_notifications2');
+Route::awsSnsWebhooks('bkash_payment_notifications');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
