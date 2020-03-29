@@ -42,7 +42,7 @@ class Message implements \ArrayAccess, \IteratorAggregate
         }
 
         // Read the raw POST data and JSON-decode it into a message.
-        Log::info(json_encode(file_get_contents('php://input')));
+        Log::info(file_get_contents('php://input'));
         return self::fromJsonString(file_get_contents('php://input'));
     }
 
