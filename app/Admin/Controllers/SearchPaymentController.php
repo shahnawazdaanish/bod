@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
+use Carbon\Carbon;
 use Encore\Admin\Actions\Toastr;
 use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Facades\Admin;
@@ -19,18 +20,21 @@ class SearchPaymentController extends Controller
     {
         $payment = null;
         if($trxid) {
-            $payment = Payment::where('trx_id', $trxid);
+            $payments = Payment::where(function($query) use ($trxid) {
+                return $query->where('trx_id', $trxid)
+                    ->orWhere('sender_account_no', $trxid);
+            })->whereDate('transaction_datetime', Carbon::today());
 
             $user = Admin::user();
             if (isset($user->merchant_id) && !empty($user->merchant_id)) {
-                $payment = $payment->where('merchant_id', $user->merchant_id);
+                $payments = $payments->where('merchant_id', $user->merchant_id);
             }
-            $payment = $payment->first();
+            $payments = $payments->get();
         }
         return $content
             ->title('Search Payment')
             ->description('Query about payment if it exists or not')
-            ->view('search_box', ['payment' => $payment]);
+            ->view('search_box', ['payments' => $payments]);
     }
 
     public function searchSubmit(Content $content)

@@ -76,7 +76,8 @@
             </div>
         </div>
     </div>
-    @if(isset($payment) && $payment)
+    @if(isset($payments) && $payments)
+        @foreach($payments as $payment)
         <div class="row" style="margin-top: 30px">
             <div class="col-md-6 col-md-offset-3 panel panel-primary">
                 <div class="table-responsive panel-body">
@@ -140,5 +141,6 @@
                 </div>
             </div>
         </div>
+        @endforeach
     @endif
 </div>
