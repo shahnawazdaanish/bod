@@ -135,7 +135,7 @@ class MerchantController extends Controller
     {
         $form = new Form(new Merchant);
 
-        $form->display('ID');
+        // $form->display('ID');
         $form->text('name', 'Merchant Name');
         $form->text('slug', 'Short Name');
         $form->text('endpoint', 'Webhook Endpoint');
@@ -146,8 +146,8 @@ class MerchantController extends Controller
         $form->text('bkash_username', 'Merchant Username');
         $form->text('bkash_password', 'Merchant Password');
         $form->select('status', 'Status')->options(['ACTIVE' => 'Active', 'INACTIVE' => 'Inactive']);
-        $form->display(trans('admin.created_at'));
-        $form->display(trans('admin.updated_at'));
+        // $form->display(trans('admin.created_at'));
+        // $form->display(trans('admin.updated_at'));
         $form->saving(function (Form $form) {
             $form->app_secret = Crypt::encrypt($form->app_secret);
             $form->bkash_password = Crypt::encrypt($form->bkash_password);
