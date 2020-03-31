@@ -18,19 +18,7 @@ class SearchPaymentController extends Controller
 {
     public function searchPayment(Content $content, $trxid = null)
     {
-        $payments = null;
-        if($trxid) {
-            $payments = Payment::where(function($query) use ($trxid) {
-                return $query->where('trx_id', $trxid)
-                    ->orWhere('sender_account_no', $trxid);
-            })->whereDate('transaction_datetime', Carbon::today());
-
-            $user = Admin::user();
-            if (isset($user->merchant_id) && !empty($user->merchant_id)) {
-                $payments = $payments->where('merchant_id', $user->merchant_id);
-            }
-            $payments = $payments->get();
-        }
+        $payments = $this->findPayment($trxid);
         return $content
             ->title('Search Payment')
             ->description('Query about payment if it exists or not')
@@ -48,23 +36,17 @@ class SearchPaymentController extends Controller
             return redirect()->back();
         }
 
-        $payment = Payment::where('trx_id', request()->get('trxid'));
-
-        $user = Admin::user();
-        if (isset($user->merchant_id) && !empty($user->merchant_id)) {
-            $payment = $payment->where('merchant_id', $user->merchant_id);
-        }
-        $payment = $payment->first();
-        if ($payment) {
-            return redirect()->route('search_payment', ['trxid' => $payment->trx_id])->withInput();
+        //$payments = $this->findPayment(request()->get('trxid'));
+        // if ($payments) {
+            return redirect()->route('search_payment', ['trxid' => request()->get('trxid')])->withInput();
 //            return $content
 //                ->title('Search Payment')
 //                ->description('Query about payment if it exists or not')
 //                ->view('search_box', ['payment'=>$payment, 'trxid' => request()->get('trxid')]);
-        } else {
-            admin_toastr("Payment not found", 'error');
-            return redirect()->back();
-        }
+        // } else {
+        //     admin_toastr("Payment not found", 'error');
+        //     return redirect()->back();
+        // }
 
     }
     public function markPaymentUsed(Content $content)
@@ -100,5 +82,22 @@ class SearchPaymentController extends Controller
             admin_toastr("Error: ".$e->getMessage(), 'error');
             return redirect()->back();
         }
+    }
+
+    public function findPayment($trxid) {
+        $payments = [];
+        if($trxid) {
+            $payments = Payment::where(function($query) use ($trxid) {
+                return $query->where('trx_id', $trxid)
+                    ->orWhere('sender_account_no', $trxid);
+            })->whereDate('transaction_datetime', Carbon::today());
+
+            $user = Admin::user();
+            if (isset($user->merchant_id) && !empty($user->merchant_id)) {
+                $payments = $payments->where('merchant_id', $user->merchant_id);
+            }
+            $payments = $payments->get();
+        }
+        return $payments;
     }
 }
