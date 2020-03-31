@@ -18,7 +18,7 @@ class SearchPaymentController extends Controller
 {
     public function searchPayment(Content $content, $trxid = null)
     {
-        $payment = null;
+        $payments = null;
         if($trxid) {
             $payments = Payment::where(function($query) use ($trxid) {
                 return $query->where('trx_id', $trxid)
