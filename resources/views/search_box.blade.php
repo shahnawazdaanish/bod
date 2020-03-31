@@ -107,6 +107,10 @@
                             <td>{{ $payment->transactionReference }}</td>
                         </tr>
                         <tr>
+                            <td><b>Merchant</b></td>
+                            <td>{{ $payment->merchant->name ?? '' }}</td>
+                        </tr>
+                        <tr>
                             <td><b>Date Time</b></td>
                             <td>{{ $payment->transaction_datetime }}</td>
                         </tr>

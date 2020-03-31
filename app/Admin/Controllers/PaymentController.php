@@ -94,7 +94,8 @@ class PaymentController extends Controller
         $grid->receiver_account_no('Receiver');
         $grid->amount('Amount');
         $grid->trx_id('Transaction ID');
-        $grid->merchant_id('Merchant');
+        $grid->column('merchant.name');
+        // $grid->merchant_id('Merchant');
 //        $grid->currency('Currency');
         $grid->transaction_datetime('Transaction Time');
 //        $grid->creditOrganizationName('creditOrganizationName');
