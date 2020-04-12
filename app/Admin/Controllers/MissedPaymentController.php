@@ -3,10 +3,12 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Actions\MissedPayment\Approve;
+use App\Models\Merchant;
 use App\Models\MissedPayment;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use Carbon\Carbon;
+use Encore\Admin\Actions\Response;
 use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Facades\Admin;
@@ -152,26 +154,26 @@ class MissedPaymentController extends Controller
             }
         });
         $form->saved(function(Form $form){
-            $this->fetchPayment($form->model());
+            $user = Admin::user();
+            $merchant = Merchant::findOrFail($user->merchant_id);
+            $this->fetchPayment($form->model(), $merchant);
         });
         return $form;
     }
 
 
-    public function fetchPayment(Model $model)
+    public function fetchPayment(Model $model, $merchant)
     {
-        $merchant = $model->merchant;
-
         try {
             // $model ...
             if($merchant) {
                 $user = Admin::user();
 
-                if ($model->status == 'PENDING') {
+//                if ($model->status == 'PENDING') {
                     $bkash = new bKashController($merchant);
                     $resp = $bkash->searchTransaction($model->transaction_id);
 
-                    if (is_array($resp)) {
+                    if (is_array($resp) && isset($resp['trxID'])) {
                         $payment = new Payment();
                         $payment->sender_account_no = isset($resp['customerMsisdn']) ? $resp['customerMsisdn'] : '';
                         $payment->receiver_account_no = isset($resp['organizationShortCode']) ? $resp['organizationShortCode'] : '';
@@ -193,10 +195,10 @@ class MissedPaymentController extends Controller
                         $model->status = "NOTFOUND";
                         $model->save();
                     }
-                } else {
-                    $model->status = "EXISTS";
-                    $model->save();
-                }
+//                } else {
+//                    $model->status = "EXISTS";
+//                    $model->save();
+//                }
 
                 /*$userWithRole = Administrator::whereHas('roles',  function ($query) {
                     $query->whereIn('slug', ['payment-admin']);
@@ -214,10 +216,12 @@ class MissedPaymentController extends Controller
                     return $this->response()->error("You are not allowed for this, ask you admin");
                 }*/
             } else {
-                return $this->response()->error("Merchant information not found");
+                $resp = new Response();
+                return $resp->swal()->error("Merchant information not found");
             }
         } catch (\Exception $e) {
-            return $this->response()->error("Exception => [". $e->getLine() . "]:" . $e->getMessage());
+            $resp = new Response();
+            return $resp->swal()->error("Exception => [". $e->getLine() . "]:" . $e->getMessage());
         }
     }
 }

@@ -116,6 +116,26 @@
                             <td>{{ $payment->transaction_datetime }}</td>
                         </tr>
                         <tr>
+                            <td><b>Merchant Reference</b></td>
+                            <td>{{ $payment->merchant_ref }}</td>
+                        </tr>
+                        @if(empty($payment->merchant_ref))
+                        <tr>
+                            <td><b>Action</b></td>
+                            <td>
+                                <form action="{{ route('payment_used') }}" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="payment_id"
+                                           value="{{ Crypt::encrypt($payment->id) }}">
+                                    <input type="text" name="merchant_reference" placeholder="Tag a reference" required>
+                                    <button class="btn btn-warning" type="submit"
+                                            onclick="return confirm('Are you sure to do this?');">Update
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endif
+                        {{--<tr>
                             <td><b>Status</b></td>
                             <td>
                                 <label class="label label-{{ $payment->payment_status ? 'danger' : 'success' }}">{{ $payment->payment_status ? 'Used' : 'Unused' }}</label>
@@ -135,7 +155,7 @@
                                     </form>
                                 </td>
                             </tr>
-                        @endif
+                        @endif--}}
                         </tbody>
                     </table>
                 </div>

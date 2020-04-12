@@ -53,7 +53,8 @@ class SearchPaymentController extends Controller
     {
         $toast = new Toastr();
         $validator = Validator::make(request()->all(), [
-            'payment_id' => 'required'
+            'payment_id' => 'required',
+            'merchant_reference' => 'required'
         ]);
         if ($validator->fails()) {
             admin_toastr($validator->errors()->first(), 'error');
@@ -68,13 +69,13 @@ class SearchPaymentController extends Controller
                 $payment = $payment->where('merchant_id', $user->merchant_id);
             }
             $payment = $payment->first();
-            if ($payment) {
-                $payment->payment_status = 1;
+            if ($payment && $payment->merchant_ref == '') {
+                $payment->merchant_ref = request()->get('merchant_reference');
                 $payment->used_by = $user->id;
                 $payment->save();
                 return redirect()->route('search_payment', ['trxid' => $payment->trx_id])->withInput();
             } else {
-                admin_toastr("Payment not found", 'error');
+                admin_toastr("Cannot update reference as already updated or payment not found", 'error');
                 return redirect()->back();
             }
         }
