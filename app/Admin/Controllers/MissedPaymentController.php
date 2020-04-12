@@ -172,6 +172,7 @@ class MissedPaymentController extends Controller
 //                if ($model->status == 'PENDING') {
                     $bkash = new bKashController($merchant);
                     $resp = $bkash->searchTransaction($model->transaction_id);
+                    dd($resp);
 
                     if (is_array($resp) && isset($resp['trxID'])) {
                         $payment = new Payment();
