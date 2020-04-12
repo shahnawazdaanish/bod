@@ -192,6 +192,9 @@ return [
         'menu_table' => 'admin_menu',
         'menu_model' => Encore\Admin\Auth\Database\Menu::class,
 
+        // Merchant Model
+        'merchants_model' => \App\Models\Merchant::class,
+
         // Pivot table for table above.
         'operation_log_table'    => 'admin_operation_log',
         'user_permissions_table' => 'admin_user_permissions',

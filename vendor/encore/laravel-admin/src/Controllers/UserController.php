@@ -38,7 +38,7 @@ class UserController extends AdminController
         $grid->column('name', trans('admin.name'));
         $grid->column('roles', trans('admin.roles'))->pluck('name')->label();
         $grid->column('created_at', trans('admin.created_at'));
-        $grid->column('updated_at', trans('admin.updated_at'));
+//        $grid->column('updated_at', trans('admin.updated_at'));
 
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             if ($actions->getKey() == 1) {
@@ -101,6 +101,7 @@ class UserController extends AdminController
         $userModel = config('admin.database.users_model');
         $permissionModel = config('admin.database.permissions_model');
         $roleModel = config('admin.database.roles_model');
+        $merchantModel = config('admin.database.merchants_model');
 
         $form = new Form(new $userModel());
 
@@ -132,9 +133,13 @@ class UserController extends AdminController
                 return $query->where('for', 'MERCHANT')
                     ->orWhere('for', 'ALL');
             })->get()->pluck('name', 'id');
+            $merchants = [];
         } else {
             $roles = $roleModel::all()->pluck('name', 'id');
             $permissions = $permissionModel::all()->pluck('name', 'id');
+
+            $merchants = $merchantModel::all()->pluck('name', 'id');
+            $form->select('merchant_id', 'Merchant')->options($merchants);
         }
         $form->multipleSelect('roles', trans('admin.roles'))->options($roles);
         $form->multipleSelect('permissions', trans('admin.permissions'))->options($permissions);
