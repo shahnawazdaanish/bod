@@ -69,7 +69,7 @@
                     {{ csrf_field() }}
                     <div class="searchbar">
                         <input class="search_input" type="text" name="trxid"
-                               placeholder="Search a payment using transaction ID" value="{{ old('trxid') }}">
+                               placeholder="Search a payment using transaction ID/Phone Number" value="{{ old('trxid') }}">
                         <button type="submit" class="search_icon"><i class="fas fa-search"></i></button>
                     </div>
                 </form>

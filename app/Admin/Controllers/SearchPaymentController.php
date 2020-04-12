@@ -90,7 +90,8 @@ class SearchPaymentController extends Controller
             $payments = Payment::where(function($query) use ($trxid) {
                 return $query->where('trx_id', $trxid)
                     ->orWhere('sender_account_no', $trxid);
-            })->whereDate('transaction_datetime', Carbon::today());
+            });
+//            })->whereDate('transaction_datetime', Carbon::today());
 
             $user = Admin::user();
             if (isset($user->merchant_id) && !empty($user->merchant_id)) {

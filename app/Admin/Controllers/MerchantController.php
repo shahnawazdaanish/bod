@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\Merchant;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -53,10 +54,19 @@ class MerchantController extends Controller
      */
     public function edit($id, Content $content)
     {
-        return $content
-            ->header(trans('merchant.edit'))
-            ->description(trans('merchant.description'))
-            ->body($this->form()->edit($id));
+        $user = Admin::user();
+        $userWithRole = Administrator::whereHas('roles',  function ($query) {
+            $query->whereIn('slug', ['administrator']);
+        })->where('id', $user->id)->first();
+
+        if($userWithRole) {
+            return $content
+                ->header(trans('merchant.edit'))
+                ->description(trans('merchant.description'))
+                ->body($this->form()->edit($id));
+        } else {
+            return redirect()->back()->withErrors(['You are not allowed for this action']);
+        }
     }
 
     /**
