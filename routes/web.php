@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-URL::forceSchema('https');
+
 //Route::awsSnsWebhooks('bkash_payment_notifications');
 Route::get('/', function () {
     return redirect()->to('/admin');
