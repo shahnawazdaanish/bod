@@ -24,8 +24,8 @@ class MerchantController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header(trans('admin.index'))
-            ->description(trans('admin.description'))
+            ->header(trans('merchant.index'))
+            ->description(trans('merchant.description'))
             ->body($this->grid());
     }
 
@@ -39,8 +39,8 @@ class MerchantController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header(trans('admin.detail'))
-            ->description(trans('admin.description'))
+            ->header(trans('merchant.detail'))
+            ->description(trans('merchant.description'))
             ->body($this->detail($id));
     }
 
@@ -54,8 +54,8 @@ class MerchantController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header(trans('admin.edit'))
-            ->description(trans('admin.description'))
+            ->header(trans('merchant.edit'))
+            ->description(trans('merchant.description'))
             ->body($this->form()->edit($id));
     }
 
@@ -68,8 +68,8 @@ class MerchantController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header(trans('admin.create'))
-            ->description(trans('admin.description'))
+            ->header(trans('merchant.create'))
+            ->description(trans('merchant.description'))
             ->body($this->form());
     }
 
@@ -94,7 +94,7 @@ class MerchantController extends Controller
 //        $grid->bkash_password('Merchant Password');
         $grid->status('Status');
         $grid->created_at(trans('admin.created_at'));
-        $grid->updated_at(trans('admin.updated_at'));
+//        $grid->updated_at(trans('admin.updated_at'));
 
         $grid->filter(function($filter){
             $filter->between('created_at', 'Date Filter')->datetime();
@@ -125,7 +125,7 @@ class MerchantController extends Controller
         $show->text('bkash_password', 'Merchant Password');
         $show->status('Status');
         $show->created_at(trans('admin.created_at'));
-        $show->updated_at(trans('admin.updated_at'));
+//        $show->updated_at(trans('admin.updated_at'));
 
         return $show;
     }
