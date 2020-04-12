@@ -96,6 +96,10 @@ class MerchantController extends Controller
         $grid->created_at(trans('admin.created_at'));
         $grid->updated_at(trans('admin.updated_at'));
 
+        $grid->filter(function($filter){
+            $filter->between('created_at', 'Date Filter')->datetime();
+        });
+
         return $grid;
     }
 
