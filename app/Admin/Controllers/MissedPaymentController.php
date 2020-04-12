@@ -17,6 +17,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class MissedPaymentController extends Controller
 {
@@ -217,10 +218,12 @@ class MissedPaymentController extends Controller
                     return $this->response()->error("You are not allowed for this, ask you admin");
                 }*/
             } else {
+                Log::info("Merchant info not found");
                 $resp = new Response();
                 return $resp->swal()->error("Merchant information not found");
             }
         } catch (\Exception $e) {
+            Log::error("Exception => [". $e->getLine() . "]:" . $e->getMessage());
             $resp = new Response();
             return $resp->swal()->error("Exception => [". $e->getLine() . "]:" . $e->getMessage());
         }
