@@ -68,6 +68,7 @@ return array(
     'Facade\\Ignition\\' => array($vendorDir . '/facade/ignition/src'),
     'Facade\\IgnitionContracts\\' => array($vendorDir . '/facade/ignition-contracts/src'),
     'Facade\\FlareClient\\' => array($vendorDir . '/facade/flare-client-php/src'),
+    'Encore\\DateRangePicker\\' => array($vendorDir . '/laravel-admin-ext/daterangepicker/src'),
     'Encore\\Admin\\Media\\' => array($vendorDir . '/laravel-admin-ext/media-manager/src'),
     'Encore\\Admin\\LogViewer\\' => array($vendorDir . '/laravel-admin-ext/log-viewer/src'),
     'Encore\\Admin\\Helpers\\' => array($vendorDir . '/laravel-admin-ext/helpers/src'),

@@ -147,6 +147,7 @@ class ComposerStaticInit226f6fa3c249572e98559424880b1a16
         ),
         'E' => 
         array (
+            'Encore\\DateRangePicker\\' => 23,
             'Encore\\Admin\\Media\\' => 19,
             'Encore\\Admin\\LogViewer\\' => 23,
             'Encore\\Admin\\Helpers\\' => 21,
@@ -432,6 +433,10 @@ class ComposerStaticInit226f6fa3c249572e98559424880b1a16
         array (
             0 => __DIR__ . '/..' . '/facade/flare-client-php/src',
         ),
+        'Encore\\DateRangePicker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel-admin-ext/daterangepicker/src',
+        ),
         'Encore\\Admin\\Media\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel-admin-ext/media-manager/src',
@@ -539,6 +544,7 @@ class ComposerStaticInit226f6fa3c249572e98559424880b1a16
         'App\\Admin\\Controllers\\MerchantController' => __DIR__ . '/../..' . '/app/Admin/Controllers/MerchantController.php',
         'App\\Admin\\Controllers\\MissedPaymentController' => __DIR__ . '/../..' . '/app/Admin/Controllers/MissedPaymentController.php',
         'App\\Admin\\Controllers\\PaymentController' => __DIR__ . '/../..' . '/app/Admin/Controllers/PaymentController.php',
+        'App\\Admin\\Controllers\\SearchPaymentController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SearchPaymentController.php',
         'App\\Admin\\Controllers\\TemplateController' => __DIR__ . '/../..' . '/app/Admin/Controllers/TemplateController.php',
         'App\\Admin\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Admin/Controllers/UserController.php',
         'App\\Admin\\Controllers\\bKashController' => __DIR__ . '/../..' . '/app/Admin/Controllers/bKashController.php',
@@ -1408,6 +1414,9 @@ class ComposerStaticInit226f6fa3c249572e98559424880b1a16
         'Encore\\Admin\\Widgets\\Tab' => __DIR__ . '/..' . '/encore/laravel-admin/src/Widgets/Tab.php',
         'Encore\\Admin\\Widgets\\Table' => __DIR__ . '/..' . '/encore/laravel-admin/src/Widgets/Table.php',
         'Encore\\Admin\\Widgets\\Widget' => __DIR__ . '/..' . '/encore/laravel-admin/src/Widgets/Widget.php',
+        'Encore\\DateRangePicker\\DateRangePicker' => __DIR__ . '/..' . '/laravel-admin-ext/daterangepicker/src/DateRangePicker.php',
+        'Encore\\DateRangePicker\\DateRangePickerExtension' => __DIR__ . '/..' . '/laravel-admin-ext/daterangepicker/src/DateRangePickerExtension.php',
+        'Encore\\DateRangePicker\\DateRangePickerServiceProvider' => __DIR__ . '/..' . '/laravel-admin-ext/daterangepicker/src/DateRangePickerServiceProvider.php',
         'Facade\\FlareClient\\Api' => __DIR__ . '/..' . '/facade/flare-client-php/src/Api.php',
         'Facade\\FlareClient\\Concerns\\HasContext' => __DIR__ . '/..' . '/facade/flare-client-php/src/Concerns/HasContext.php',
         'Facade\\FlareClient\\Concerns\\UsesTime' => __DIR__ . '/..' . '/facade/flare-client-php/src/Concerns/UsesTime.php',

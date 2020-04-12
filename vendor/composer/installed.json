@@ -1426,7 +1426,8 @@
                 "name": "Jakub Onderka",
                 "email": "jakub.onderka@gmail.com"
             }
-        ]
+        ],
+        "abandoned": "php-parallel-lint/php-console-color"
     },
     {
         "name": "jakub-onderka/php-console-highlighter",
@@ -1474,7 +1475,8 @@
                 "homepage": "http://www.acci.cz/"
             }
         ],
-        "description": "Highlight PHP code in terminal"
+        "description": "Highlight PHP code in terminal",
+        "abandoned": "php-parallel-lint/php-console-highlighter"
     },
     {
         "name": "joggapp/laravel-aws-sns",
@@ -1586,6 +1588,62 @@
         "homepage": "https://github.com/jxlwqq/material-ui",
         "keywords": [
             "extension",
+            "laravel-admin"
+        ]
+    },
+    {
+        "name": "laravel-admin-ext/daterangepicker",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/laravel-admin-extensions/daterangepicker.git",
+            "reference": "f38de46062203973ecfea1ab4092839eef77e269"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/laravel-admin-extensions/daterangepicker/zipball/f38de46062203973ecfea1ab4092839eef77e269",
+            "reference": "f38de46062203973ecfea1ab4092839eef77e269",
+            "shasum": ""
+        },
+        "require": {
+            "encore/laravel-admin": "~1.6",
+            "php": ">=7.0.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~6.0"
+        },
+        "time": "2018-09-13T17:50:59+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Encore\\DateRangePicker\\DateRangePickerServiceProvider"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Encore\\DateRangePicker\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "song",
+                "email": "zosong@126.com"
+            }
+        ],
+        "description": "Integrates daterangepicker into laravel-admin",
+        "homepage": "https://github.com/laravel-admin-ext/daterangepicker",
+        "keywords": [
+            "daterangepicker",
+            "extension",
+            "form",
             "laravel-admin"
         ]
     },
