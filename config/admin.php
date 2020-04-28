@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'bKash on Delivery',
+    'name' => 'bKash Payment Services',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>bKash</b> on Delivery',
+    'logo' => '<b>bKash</b> Payment Services',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>boD</b>',
+    'logo-mini' => '<b>bPS</b>',
 
     /*
     |--------------------------------------------------------------------------

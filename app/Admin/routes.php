@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Routing\Router;
-\Illuminate\Support\Facades\URL::forceScheme('https');
 Admin::routes();
 
 Route::group([
@@ -15,6 +14,8 @@ Route::group([
     $router->resource('merchants', 'MerchantController');
     $router->resource('all_payments', 'PaymentController');
     $router->resource('missed_payments', 'MissedPaymentController');
+    $router->resource('send-payment-notification', 'SendPaymentNotificationController');
+    $router->resource('send-payment-link', 'SendPaymentLinkController');
     $router->resource('users', 'UserController');
 
     $router->get('search_payment', 'SearchPaymentController@searchPayment');

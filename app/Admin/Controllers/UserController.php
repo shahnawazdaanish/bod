@@ -48,6 +48,10 @@ class UserController extends AdminController
             });
         });
 
+        $grid->filter(function($filter){
+            $filter->between('created_at', 'Date Filter')->datetime();
+        });
+
         return $grid;
     }
 

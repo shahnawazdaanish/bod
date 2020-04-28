@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\EmailableAdded;
 use App\Listeners\ReceiveSNSbKash;
+use App\Listeners\SendPaymentEventEmail;
 use App\Listeners\SubscribeSNSbKash;
+use App\Mail\SendPaymentEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -30,6 +33,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SnsMessageReceived::class => [
             ReceiveSNSbKash::class
+        ],
+        EmailableAdded::class => [
+            SendPaymentEventEmail::class
         ]
     ];
 

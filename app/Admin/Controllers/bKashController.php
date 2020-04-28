@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Merchant;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 
 class bKashController extends Controller
@@ -23,7 +24,7 @@ class bKashController extends Controller
     public function __construct(Merchant $merchant)
     {
         if(!$merchant) { throw new \Exception("Merchant information required", '500'); }
-        $this->isProduction = env("APP_ENV") == "production" ? true : false;
+        $this->isProduction = env("APP_ENV") == "production";
         $this->merchant = $merchant;
     }
 
@@ -51,6 +52,67 @@ class bKashController extends Controller
         }
     }
 
+    public function createPayment($amount, string $currency, string $intent, string $merchantInvoiceNumber=''){
+        if($merchantInvoiceNumber == '') { $merchantInvoiceNumber = uniqid(); }
+
+        $merchant = $this->merchant;
+        $creds = $this->loadCredentials();
+        $token = $this->readToken();
+        if($token) {
+            $headers = [
+                'authorization' => $token,
+                'x-app-key' => isset($creds['app_key']) ? $creds['app_key'] : ''
+            ];
+            $body = [
+                'amount' => $amount,
+                'currency' => $currency,
+                'intent' => $intent,
+                'merchantInvoiceNumber' => $merchantInvoiceNumber
+            ];
+
+            $url = $this->constructURL('createURL');
+            $data = $this->send($url, 'POST', $body, $headers);
+            if(is_string($data)){
+                $data = json_decode($data, true);
+            }
+            return $data;
+            /*if(isset($data['paymentID'])){
+                return $data;
+            } else {
+                return "Payment cannot be created right now";
+            }*/
+        } else {
+            throw new \Exception("Token is not available", 500);
+        }
+
+    }
+    public function executePayment($paymentID){
+        $merchant = $this->merchant;
+        $creds = $this->loadCredentials();
+        $token = $this->readToken();
+        if($token) {
+            $headers = [
+                'authorization' => $token,
+                'x-app-key' => isset($creds['app_key']) ? $creds['app_key'] : ''
+            ];
+
+            $url = $this->constructURL('executeURL', $paymentID);
+            $data = $this->send($url, 'POST', [], $headers);
+            if(is_string($data)){
+                $data = json_decode($data, true);
+            }
+            return $data;
+            /*if(isset($data['trxID'])){
+                return $data;
+            } else {
+                return "Payment cannot be created right now";
+            }*/
+        } else {
+            throw new \Exception("Token is not available", 500);
+        }
+
+    }
+
 
 
 
@@ -60,7 +122,7 @@ class bKashController extends Controller
     public function getToken(): string
     {
         $merchant = $this->merchant;
-        $creds = $this->loadCredentials($merchant);
+        $creds = $this->loadCredentials();
 
         $body = array(
             'app_key' => $creds["app_key"],
@@ -87,11 +149,11 @@ class bKashController extends Controller
                 ], $merchant->id
                 );
             } else {
-                return null;
+                return '';
             }
             return $resp['id_token'];
         }
-        return null;
+        return '';
     }
     public function readToken(): string
     {

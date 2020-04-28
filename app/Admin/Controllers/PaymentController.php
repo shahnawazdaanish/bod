@@ -104,6 +104,9 @@ class PaymentController extends Controller
 //        $grid->TopicArn('TopicArn');
         $grid->created_at('Notified At');
 //        $grid->updated_at(trans('admin.updated_at'));
+        $grid->filter(function($filter){
+            $filter->between('created_at', 'Date Filter')->datetime();
+        });
 
         return $grid;
     }

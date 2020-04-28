@@ -18,6 +18,7 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\MessageBag;
 
 class MissedPaymentController extends Controller
 {
@@ -91,21 +92,18 @@ class MissedPaymentController extends Controller
         $grid = new Grid(new MissedPayment);
 
         $user = Admin::user();
-        if(isset($user->merchant_id) && !empty($user->merchant_id)){
-            $grid->model()->where('merchant_id','=', $user->merchant_id);
+        if (isset($user->merchant_id) && !empty($user->merchant_id)) {
+            $grid->model()->where('merchant_id', '=', $user->merchant_id);
         }
 
         $grid->id('ID');
         $grid->msisdn('Customer bKash Account');
         $grid->transaction_id('Transaction ID');
-//        $grid->merchant_id('merchant_id');
         $grid->status('Status');
         $grid->created_at(trans('admin.created_at'));
-//        $grid->updated_at(trans('admin.updated_at'));
-
-//        $grid->actions(function ($actions) {
-//            $actions->add(new Approve);
-//        });
+        $grid->filter(function($filter){
+            $filter->between('created_at', 'Date Filter')->datetime();
+        });
 
         return $grid;
     }
@@ -143,21 +141,26 @@ class MissedPaymentController extends Controller
 //        $form->display('ID');
         $form->text('msisdn', 'bKash Customer Account Number');
         $form->text('transaction_id', 'bKash Transaction ID')
-            ->rules('required|min:3|unique:missed_payments,transaction_id');
+            ->rules('required|min:3');
 //        $form->text('merchant_id', 'merchant_id');
 //        $form->text('status', 'status');
 //        $form->display(trans('admin.created_at'));
 //        $form->display(trans('admin.updated_at'));
-        $form->saving(function(Form $form){
+        $form->saving(function (Form $form) {
             $user = Admin::user();
-            if(isset($user->merchant_id) && !empty($user->merchant_id)){
+            if (isset($user->merchant_id) && !empty($user->merchant_id)) {
                 $form->model()->merchant_Id = $user->merchant_id;
             }
         });
-        $form->saved(function(Form $form){
+        $form->saved(function (Form $form) {
             $user = Admin::user();
-            $merchant = Merchant::findOrFail($user->merchant_id);
-            $this->fetchPayment($form->model(), $merchant);
+            $merchant = Merchant::find($user->merchant_id);
+            if ($merchant) {
+                // dd($form->model());
+                $this->fetchPayment($form->model(), $merchant);
+            } else {
+                return $this->sendError('Authorization Error!', 'You are not permitted, required a merchant user');
+            }
         });
         return $form;
     }
@@ -167,14 +170,13 @@ class MissedPaymentController extends Controller
     {
         try {
             // $model ...
-            if($merchant) {
-                $user = Admin::user();
+            if ($merchant) {
+                $bkash = new bKashController($merchant);
+                $resp = $bkash->searchTransaction($model->transaction_id);
 
-//                if ($model->status == 'PENDING') {
-                    $bkash = new bKashController($merchant);
-                    $resp = $bkash->searchTransaction($model->transaction_id);
-
-                    if (is_array($resp) && isset($resp['trxID'])) {
+                if (is_array($resp) && isset($resp['trxID'])) {
+                    $wasAddedBefore = Payment::where('trx_id', $resp['trxID'])->first();
+                    if (!$wasAddedBefore) {
                         $payment = new Payment();
                         $payment->sender_account_no = isset($resp['customerMsisdn']) ? $resp['customerMsisdn'] : '';
                         $payment->receiver_account_no = isset($resp['organizationShortCode']) ? $resp['organizationShortCode'] : '';
@@ -191,40 +193,59 @@ class MissedPaymentController extends Controller
                         if ($payment) {
                             $model->status = "ADDED";
                             $model->save();
+
+                            Log::info("This payment (" . $resp['trxID'] . ") added in system");
+                            return $this->sendSuccess('Error!', 'Payment added successfully');
                         }
                     } else {
-                        $model->status = "NOTFOUND";
+                        $model->status = "PAYMENT_EXISTS";
                         $model->save();
+
+                        Log::info("This payment (" . $resp['trxID'] . ") already exists in system");
+                        return $this->sendError('Error!', 'Payment already exists in system');
                     }
-//                } else {
-//                    $model->status = "EXISTS";
-//                    $model->save();
-//                }
-
-                /*$userWithRole = Administrator::whereHas('roles',  function ($query) {
-                    $query->whereIn('slug', ['payment-admin']);
-                })->where('id', $user->id)->first();
-
-                if($userWithRole) {
-                    if (isset($userWithRole->merchant_id) && !empty($userWithRole->merchant_id)) {
-                        if ($userWithRole->merchant_id != $merchant->id) {
-                            return $this->response()->error("You do not have access to approve this");
-                        }
-                    }
-
-
                 } else {
-                    return $this->response()->error("You are not allowed for this, ask you admin");
-                }*/
+                    $model->status = "NOTFOUND";
+                    $model->save();
+
+                    Log::info("This payment (" . $resp['trxID'] . ") is not available in bKash system");
+                    return $this->sendError('Error!', 'Payment reference is invalid, not found in Merchant Account');
+                }
             } else {
+                $model->status = "MERCHANT_NOTFOUND";
+                $model->save();
+
                 Log::info("Merchant info not found");
-                $resp = new Response();
-                return $resp->swal()->error("Merchant information not found");
+                return $this->sendError('Error!', 'Merchant info not found');
             }
         } catch (\Exception $e) {
-            Log::error("Exception => [". $e->getLine() . "]:" . $e->getMessage());
-            $resp = new Response();
-            return $resp->swal()->error("Exception => [". $e->getLine() . "]:" . $e->getMessage());
+            $model->status = "EXCEPTION";
+            $model->save();
+
+            Log::error("Exception => [" . $e->getLine() . "]:" . $e->getMessage());
+            return $this->sendError('Error!', "Exception => " . $e->getMessage());
         }
+    }
+
+    public function sendError($title, $message)
+    {
+
+        $error = new MessageBag([
+            'title' => $title,
+            'message' => $message,
+        ]);
+
+        return back()->with(compact('error'));
+    }
+
+    public function sendSuccess($title, $message)
+    {
+
+        $success = new MessageBag([
+            'title' => $title,
+            'message' => $message,
+        ]);
+
+        return back()->with(compact('success'));
     }
 }
