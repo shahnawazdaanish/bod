@@ -262,9 +262,10 @@
                     <div class="invoice-pay">
                         <div class="invoice-pay-center">
                             @if($linkPayment->status != 'PAID')
-                                <a id="bKash_button" href="#"><img style="max-width: 200px"
-                                                                   src="{{ asset('images/pay_with_bkash.png') }}"
-                                                                   alt=""></a>
+{{--                                <a id="bKash_button" href="#"><img style="max-width: 200px"--}}
+{{--                                                                   src="{{ asset('images/pay_with_bkash.png') }}"--}}
+{{--                                                                   alt=""></a>--}}
+                                <a id="bKash_button" href="#"><button class="btn btn-round btn-lg btn-dark">Pay using bKash</button></a>
                             @else
                                 <p for="" class="alert alert-success">PAID</p>
                                 <div class="table-responsive">

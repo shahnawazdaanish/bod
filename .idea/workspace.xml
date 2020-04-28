@@ -2,25 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="06597dca-b246-460f-b305-8eebd19a0a77" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Admin/Controllers/SendPaymentLinkController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Admin/Controllers/SendPaymentNotificationController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/PaymentProcessorController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/MerchantSendPaymentLink.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/MerchantSendPaymentNotification.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/emails/send_payment_link_email.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/emails/send_payment_notification_email.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/payment/link_pay.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Admin/Controllers/MissedPaymentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/Controllers/MissedPaymentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Admin/Controllers/PaymentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/Controllers/PaymentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Admin/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Admin/Controllers/bKashController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/Controllers/bKashController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Admin/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/routes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/payment/link_pay.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/payment/link_pay.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,7 +182,7 @@
       <workItem from="1586657364146" duration="12730000" />
       <workItem from="1587479876196" duration="299000" />
       <workItem from="1587480321967" duration="82000" />
-      <workItem from="1587795704910" duration="50869000" />
+      <workItem from="1587795704910" duration="52016000" />
     </task>
     <servers />
   </component>
